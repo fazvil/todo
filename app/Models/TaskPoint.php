@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class TaskPoint extends Model
 {
     use HasFactory;
 
@@ -13,13 +13,8 @@ class Task extends Model
         'body'
     ];
 
-    public function creator()
+    public function task()
     {
-        return $this->belongsTo('App\Models\User');
-    }
-
-    public function points()
-    {
-        return $this->hasMany('App\Models\TaskPoint');
+        return $this->belongsTo('App\Models\Task');
     }
 }

@@ -7,5 +7,22 @@
 @endsection
 
 @section('content')
-    {{ $task->body }}
+    <b>{{ $task->body }}</b>
+
+    <table id="points"></table>
+
+    <script>
+    $(() => {
+        $.get("{{ route('tasks.points.index', $task) }}", function(data) {
+            data.forEach((point) => {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.innerText = point.body;
+                tr.appendChild(td);
+
+                $('#points').append(tr);
+            });
+        });
+    });
+    </script>
 @endsection

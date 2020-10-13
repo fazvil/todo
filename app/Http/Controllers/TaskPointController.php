@@ -16,7 +16,7 @@ class TaskPointController extends Controller
      */
     public function index(Task $task)
     {
-        //
+        return $task->points;
     }
 
     /**

@@ -25,7 +25,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $task = new Task();
+        return view('task.create', compact('task'));
     }
 
     /**

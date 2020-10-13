@@ -17,9 +17,9 @@
 @endsection
 
 @section('content')
-{{ Form::model($task, ['url' => route('tasks.store')]) }}
+{{ Form::model($task, ['url' => route('tasks.update', $task), 'method' => 'PATCH']) }}
     {{ Form::label('name', 'Содержимое') }}
     {{ Form::text('body') }}<br>
-    {{ Form::submit('Создать') }}
+    {{ Form::submit('Обновить') }}
 {{ Form::close() }}
 @endsection

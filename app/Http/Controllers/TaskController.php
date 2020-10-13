@@ -16,7 +16,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::where('creator_id', Auth::id())->paginate();
+        $tasks = Task::where('creator_id', Auth::id())
+            ->orderBy('created_at')    
+            ->paginate();
         return view('task.index', compact('tasks'));
     }
 
@@ -59,7 +61,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return view('task.show', compact('task'));
     }
 
     /**
@@ -70,7 +72,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return view('task.edit', compact('task'));
     }
 
     /**
@@ -82,7 +84,14 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $data = $this->validate($request, [
+            'body' => 'required'
+        ]);
+
+        $task->fill($data);
+        $task->save();
+        return redirect()
+            ->route('tasks.index');
     }
 
     /**
@@ -93,6 +102,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        if ($task) {
+          $task->delete();
+        }
+        return redirect()->route('tasks.index');
     }
 }

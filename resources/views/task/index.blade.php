@@ -7,8 +7,18 @@
 @endsection
 
 @section('content')
-    @foreach ($tasks as $task)    
-        <div>{{Str::limit($task->body, 200)}}</div>
-    @endforeach
+    <table>
+        @foreach ($tasks as $task)
+            <tr>
+                <td>
+                    {{Str::limit($task->body, 200)}}
+                </td>
+                <td>
+                    <a href="{{ route('tasks.show', $task) }}">Подробнее</a>
+                </td>
+            </tr>  
+        @endforeach
+    </table>
+
     {{ $tasks->links() }}
 @endsection

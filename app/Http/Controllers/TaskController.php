@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -14,7 +16,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::paginate();
+        $tasks = Task::where('creator_id', Auth::id())->paginate();
         return view('task.index', compact('tasks'));
     }
 
@@ -37,7 +39,16 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->validate($request, [
+            'body' => 'required',
+        ]);
+        
+        $task = User::find(Auth::id())->tasks()->make();
+        $task->fill($data);
+        $task->save();
+        
+        return redirect()
+            ->route('tasks.index');
     }
 
     /**

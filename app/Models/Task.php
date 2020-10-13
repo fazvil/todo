@@ -9,8 +9,12 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'body'
+    ];
+
     public function creator()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('App\Models\User');
     }
 }

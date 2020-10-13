@@ -97,6 +97,6 @@ class TaskPointController extends Controller
      */
     public function destroy(Task $task, TaskPoint $taskPoint)
     {
-        //
+
     }
 }

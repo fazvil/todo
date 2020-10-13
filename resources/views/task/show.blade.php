@@ -8,28 +8,33 @@
 
 @section('content')
     <b>{{ $task->body }}</b>
-
     <table>
-        <tr id="add_point">
-            <td>
-            {{ Form::model($point, ['url' => route('tasks.points.store', $task)]) }}
-                {{ Form::text('body') }}<br>
-                {{ Form::submit('Добавить') }}
-            {{ Form::close() }}
-            </td>
-        </tr>
+        @foreach ($points as $point)
+            <tr>
+                <td>
+                    {{Str::limit($point->body, 200)}}
+                </td>
+                <td>
+                    <a data="{{ $point->body }}" name="edit" href="">Редактировать</a>
+                </td>
+                <td>
+                {{ Form::open(['url' => route('tasks.points.destroy', [$task, $point]), 'method' => 'DELETE']) }}
+                    {{ Form::submit('Удалить') }}
+                {{ Form::close() }}
+                </td>
+            </tr>  
+        @endforeach
     </table>
+    {{ Form::model($new_point, ['url' => route('tasks.points.store', $task)]) }}
+        {{ Form::text('body') }}<br>
+        {{ Form::submit('Добавить') }}
+    {{ Form::close() }}
 
     <script>
     $(() => {
-        $.get("{{ route('tasks.points.index', $task) }}", function(data) {
-            data.forEach((point) => {
-                const tr = document.createElement('tr');
-                const td = document.createElement('td');
-                td.innerText = point.body;
-                tr.appendChild(td);
-                $('#add_point').before(tr);
-            });
+        $("a[name='edit']").click(function() {
+            const data = $(this).attr('data');
+            
         });
     });
     </script>

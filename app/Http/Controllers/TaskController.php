@@ -61,7 +61,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('task.show', compact('task'));
+        $point = $task->points()->make();
+        return view('task.show', compact('task', 'point'));
     }
 
     /**

@@ -10,7 +10,7 @@
     </div>
 @endif
 
-@section('header', 'Создать задачу')
+@section('header', 'Редактировать задачу')
 
 @section('action')
     <a href="{{ route('tasks.index') }}">Список задач</a>

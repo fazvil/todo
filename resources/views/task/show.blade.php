@@ -9,7 +9,16 @@
 @section('content')
     <b>{{ $task->body }}</b>
 
-    <table id="points"></table>
+    <table>
+        <tr id="add_point">
+            <td>
+            {{ Form::model($point, ['url' => route('tasks.points.store', $task)]) }}
+                {{ Form::text('body') }}<br>
+                {{ Form::submit('Добавить') }}
+            {{ Form::close() }}
+            </td>
+        </tr>
+    </table>
 
     <script>
     $(() => {
@@ -19,8 +28,7 @@
                 const td = document.createElement('td');
                 td.innerText = point.body;
                 tr.appendChild(td);
-
-                $('#points').append(tr);
+                $('#add_point').before(tr);
             });
         });
     });

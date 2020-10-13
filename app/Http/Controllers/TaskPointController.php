@@ -39,7 +39,16 @@ class TaskPointController extends Controller
      */
     public function store(Request $request, Task $task)
     {
-        //
+        $data = $this->validate($request, [
+            'body' => 'required',
+        ]);
+        
+        $point = $task->points()->make();
+        $point->fill($data);
+        $point->save();
+        
+        return redirect()
+            ->route('tasks.show', $task);
     }
 
     /**

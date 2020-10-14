@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\TaskPoint;
 
 class TaskController extends Controller
 {
@@ -61,7 +62,10 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $new_point = $task->points()->make();
-        $points = $task->points;
+        //$points = $task->points;
+        $points = TaskPoint::where('task_id', $task->id)
+            ->orderBy('created_at')
+            ->get();
         return view('task.show', compact('task', 'new_point', 'points'));
     }
 

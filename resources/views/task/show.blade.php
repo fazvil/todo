@@ -20,11 +20,15 @@
                     @if ($point->done)
                         |DONE|
                     @else
-                    <a href="{{ route('tasks.points.done', [$task, $point]) }}">Отметить как выполненная</a>
+                        {{ Form::open(['url' => route('tasks.points.done', [$task, $point]), 'method' => 'GET']) }}
+                            {{ Form::submit('Отметить как выполненная') }}
+                        {{ Form::close() }}
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('tasks.points.edit', [$task, $point]) }}">Редактировать</a>
+                {{ Form::open(['url' => route('tasks.points.edit', [$task, $point]), 'method' => 'GET']) }}
+                    {{ Form::submit('Редактировать') }}
+                {{ Form::close() }}
                 </td>
                 <td>
                 {{ Form::open(['url' => route('tasks.points.destroy', [$task, $point]), 'method' => 'DELETE']) }}
@@ -35,17 +39,30 @@
         @endforeach
     </table>
     {{ Form::model($new_point, ['url' => route('tasks.points.store', $task)]) }}
-        {{ Form::text('body') }}<br>
+        {{ Form::text('body') }}
         {{ Form::submit('Добавить подзадачу') }}
     {{ Form::close() }}
     <br>
-    <p>Прикрепленный файл:</p>
-    @if ($task->fileName)
-        {{ Form::open(['url' => route('tasks.download', $task), 'method' => 'GET']) }}
-            {{ Form::label('name', $task->fileName) }}
-            {{ Form::submit('Скачать') }}
-        {{ Form::close() }}
-    @else
-        (Пусто)
-    @endif
+    <table>
+        @foreach ($task->files as $file)
+            <tr>
+                <td>
+                {{ Form::open(['url' => route('tasks.file.download', $file)]) }}
+                    {{ Form::label('name', $file->fileName) }}
+                    {{ Form::submit('Скачать') }}
+                {{ Form::close() }}
+                </td>
+                <td>
+                {{ Form::open(['url' => route('tasks.file.delete', $file), 'method' => 'DELETE']) }}
+                    {{ Form::submit('Удалить') }}
+                {{ Form::close() }}
+                </td>
+            </tr>
+        @endforeach
+    </table>
+    
+    {{ Form::open(['url' => route('tasks.file.upload', $task), 'files' => true]) }}
+        {{ Form::file('file') }}
+        {{ Form::submit('Загрузить') }}
+    {{ Form::close() }}
 @endsection

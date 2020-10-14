@@ -17,10 +17,14 @@
                     {{Str::limit($task->body, 200)}}
                 </td>
                 <td>
-                    <a href="{{ route('tasks.show', $task) }}">Подробнее</a>
+                {{ Form::open(['url' => route('tasks.show', $task), 'method' => 'GET']) }}
+                    {{ Form::submit('Подробнее') }}
+                {{ Form::close() }}
                 </td>
                 <td>
-                    <a href="{{ route('tasks.edit', $task) }}">Редактировать</a>
+                {{ Form::open(['url' => route('tasks.edit', $task), 'method' => 'GET']) }}
+                    {{ Form::submit('Редактировать') }}
+                {{ Form::close() }}
                 </td>
                 <td>
                 {{ Form::open(['url' => route('tasks.destroy', $task), 'method' => 'DELETE']) }}

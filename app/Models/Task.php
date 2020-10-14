@@ -22,4 +22,9 @@ class Task extends Model
     {
         return $this->hasMany('App\Models\TaskPoint');
     }
+
+    public function files()
+    {
+        return $this->hasMany('App\Models\File');
+    }
 }

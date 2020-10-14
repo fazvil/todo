@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\File;
 use App\Models\TaskPoint;
 use App\Http\Controllers\TaskPointController;
+use Illuminate\Support\Facades\Storage;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +26,16 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('/tasks', 'App\Http\Controllers\TaskController');
+Route::post('/tasks/file/{id}/upload', 'App\Http\Controllers\TaskController@file_upload')
+    ->name('tasks.file.upload');
 
-//Route::delete('/tasks/{task}/points/{point}', 'App\Http\Controllers\TaskPointController\ArticleController@destroy')
-//  ->name('tasks.points.destroy');
+Route::post('/tasks/file/{id}/download', 'App\Http\Controllers\TaskController@file_download')
+    ->name('tasks.file.download');
+
+Route::delete('/tasks/files/{id}/delete', 'App\Http\Controllers\TaskController@file_delete')
+    ->name('tasks.file.delete');
+
+Route::resource('/tasks', 'App\Http\Controllers\TaskController');
 
 Route::delete('/tasks/{task_id}/points/{point_id}', function ($task_id, $point_id) {
     $task = Task::find($task_id);

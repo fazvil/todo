@@ -7,7 +7,8 @@
 @endsection
 
 @section('content')
-    <b>{{ $task->body }}</b>
+    <b>{{ $task->body }}</b><br>
+    <br>
     <table>
         @foreach ($points as $point)
             <tr>

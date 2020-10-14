@@ -42,11 +42,18 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        /*
+        $file = $request->file('file');
+        $name = $file->getClientOriginalName();
+        $file->move('uploads', $file->getClientOriginalName());
+        $pathToFile = __DIR__.'/../../../public/uploads/'.$name;
+        */
         $data = $this->validate($request, [
             'body' => 'required',
         ]);
         $task = User::find(Auth::id())->tasks()->make();
         $task->fill($data);
+        //$task->pathToFile = $pathToFile;
         $task->save();
         
         return redirect()

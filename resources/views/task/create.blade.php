@@ -18,8 +18,7 @@
 
 @section('content')
 {{ Form::model($task, ['url' => route('tasks.store')]) }}
-    {{ Form::label('body', 'Содержимое') }}
-    {{ Form::text('body') }}<br>
+    {{ Form::text('body') }}
     {{ Form::submit('Создать') }}
 {{ Form::close() }}
 @endsection

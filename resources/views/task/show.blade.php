@@ -11,11 +11,11 @@
     <table>
         @foreach ($points as $point)
             <tr>
-                <td>
+                <td width=500>
                     {{Str::limit($point->body, 200)}}
                 </td>
                 <td>
-                    <a data="{{ $point->body }}" name="edit" href="">Редактировать</a>
+                    <a href="{{ route('tasks.points.edit', [$task, $point]) }}">Редактировать</a>
                 </td>
                 <td>
                 {{ Form::open(['url' => route('tasks.points.destroy', [$task, $point]), 'method' => 'DELETE']) }}
@@ -29,13 +29,4 @@
         {{ Form::text('body') }}<br>
         {{ Form::submit('Добавить') }}
     {{ Form::close() }}
-
-    <script>
-    $(() => {
-        $("a[name='edit']").click(function() {
-            const data = $(this).attr('data');
-            
-        });
-    });
-    </script>
 @endsection

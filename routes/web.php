@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\TaskPoint;
+use App\Http\Controllers\TaskPointController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,5 +36,20 @@ Route::delete('/tasks/{task_id}/points/{point_id}', function ($task_id, $point_i
     return redirect()->route('tasks.show', $task);
 })->name('tasks.points.destroy');
 
+Route::get('/tasks/{task_id}/points/{point_id}/edit', function ($task_id, $point_id) {
+    $task = Task::find($task_id);
+    $point = TaskPoint::find($point_id);
+    return view('task_point.edit', compact('task', 'point'));
+})->name('tasks.points.edit');
+
+Route::patch('/tasks/{task_id}/points/{point_id}', function (Request $request, $task_id, $point_id) {
+    $task = Task::find($task_id);
+    $point = TaskPoint::find($point_id);
+
+    $point->body = $request->input('body');
+    $point->save();
+    return redirect()
+        ->route('tasks.show', $task);
+})->name('tasks.points.update');
 
 Route::resource('/tasks.points', 'App\Http\Controllers\TaskPointController');

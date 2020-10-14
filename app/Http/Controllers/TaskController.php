@@ -44,7 +44,6 @@ class TaskController extends Controller
         $data = $this->validate($request, [
             'body' => 'required',
         ]);
-        
         $task = User::find(Auth::id())->tasks()->make();
         $task->fill($data);
         $task->save();

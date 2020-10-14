@@ -107,9 +107,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if ($task) {
-          $task->delete();
-        }
+        $task->points()->delete();
+        $task->delete();
+
         return redirect()->route('tasks.index');
     }
 }

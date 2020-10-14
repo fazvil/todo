@@ -34,6 +34,6 @@
     </table>
     {{ Form::model($new_point, ['url' => route('tasks.points.store', $task)]) }}
         {{ Form::text('body') }}<br>
-        {{ Form::submit('Добавить') }}
+        {{ Form::submit('Добавить подзадачу') }}
     {{ Form::close() }}
 @endsection

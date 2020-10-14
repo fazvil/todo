@@ -13,7 +13,7 @@
     <table>
         @foreach ($tasks as $task)
             <tr>
-                <td width=500>
+                <td width=400>
                     {{Str::limit($task->body, 200)}}
                 </td>
                 <td>

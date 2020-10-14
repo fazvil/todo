@@ -52,4 +52,13 @@ Route::patch('/tasks/{task_id}/points/{point_id}', function (Request $request, $
         ->route('tasks.show', $task);
 })->name('tasks.points.update');
 
+Route::get('/tasks/{task_id}/points/{point_id}/done', function ($task_id, $point_id) {
+    $task = Task::find($task_id);
+    $point = TaskPoint::find($point_id);
+    $point->done = true;
+    $point->save();
+    return redirect()
+        ->route('tasks.show', $task);
+})->name('tasks.points.done');
+
 Route::resource('/tasks.points', 'App\Http\Controllers\TaskPointController');

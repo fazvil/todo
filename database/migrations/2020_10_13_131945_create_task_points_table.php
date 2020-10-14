@@ -16,6 +16,7 @@ class CreateTaskPointsTable extends Migration
         Schema::create('task_points', function (Blueprint $table) {
             $table->id();
             $table->text('body');
+            $table->boolean('done')->default(false);
             $table->foreignId('task_id')->references('id')->on('tasks');
             $table->timestamps();
         });

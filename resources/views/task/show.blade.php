@@ -11,8 +11,15 @@
     <table>
         @foreach ($points as $point)
             <tr>
-                <td width=500>
+                <td width=400>
                     {{Str::limit($point->body, 200)}}
+                </td>
+                <td>
+                    @if ($point->done)
+                        |DONE|
+                    @else
+                    <a href="{{ route('tasks.points.done', [$task, $point]) }}">Отметить как выполненная</a>
+                    @endif
                 </td>
                 <td>
                     <a href="{{ route('tasks.points.edit', [$task, $point]) }}">Редактировать</a>

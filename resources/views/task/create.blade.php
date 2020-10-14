@@ -17,10 +17,11 @@
 @endsection
 
 @section('content')
-{{ Form::model($task, ['url' => route('tasks.store')]) }}
-    {{ Form::label('name', 'Содержимое') }}
+{{ Form::model($task, ['url' => route('tasks.store'), 'files' => true]) }}
+    {{ Form::label('body', 'Содержимое') }}
     {{ Form::text('body') }}<br>
-
+    {{ Form::label('file', 'Содержимое') }}
+    {{ Form::file('file') }}<br>
     {{ Form::submit('Создать') }}
 {{ Form::close() }}
 @endsection

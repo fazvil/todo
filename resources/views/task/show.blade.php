@@ -4,10 +4,11 @@
 
 @section('action')
     <a href="{{ route('tasks.index') }}">Список задач</a>
+    <a href="{{ route('tasks.edit', $task) }}">Редактировать задачу</a>
 @endsection
 
 @section('content')
-    <b>{{ $task->body }}</b><br>
+    <h4>{{ $task->body }}</h4>
     <br>
     <table>
         @foreach ($points as $point)
@@ -37,4 +38,14 @@
         {{ Form::text('body') }}<br>
         {{ Form::submit('Добавить подзадачу') }}
     {{ Form::close() }}
+    <br>
+    <p>Прикрепленный файл:</p>
+    @if ($task->fileName)
+        {{ Form::open(['url' => route('tasks.download', $task), 'method' => 'GET']) }}
+            {{ Form::label('name', $task->fileName) }}
+            {{ Form::submit('Скачать') }}
+        {{ Form::close() }}
+    @else
+        (Пусто)
+    @endif
 @endsection

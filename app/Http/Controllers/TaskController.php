@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TaskPoint;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -41,19 +42,22 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        /*
-        $file = $request->file('file');
-        $name = $file->getClientOriginalName();
-        $file->move('uploads', $file->getClientOriginalName());
-        $pathToFile = __DIR__.'/../../../public/uploads/'.$name;
-        */
+    {              
         $data = $this->validate($request, [
             'body' => 'required',
         ]);
         $task = User::find(Auth::id())->tasks()->make();
         $task->fill($data);
-        //$task->pathToFile = $pathToFile;
+        if ($request->hasFile('file')) {
+            //$pathToFile = $request->file('file')->store('uploads');
+            $fileName = $request->file('file')->getClientOriginalName();
+            $pathToFile = $request->file('file')->storeAs(
+                'uploads',
+                $fileName
+            );
+            $task->fileName = $fileName;
+            $task->pathToFile = $pathToFile;
+        }
         $task->save();
         
         return redirect()
@@ -69,10 +73,11 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $new_point = $task->points()->make();
-        //$points = $task->points;
         $points = TaskPoint::where('task_id', $task->id)
             ->orderBy('created_at')
             ->get();
+
+        
         return view('task.show', compact('task', 'new_point', 'points'));
     }
 
@@ -118,5 +123,14 @@ class TaskController extends Controller
         $task->delete();
 
         return redirect()->route('tasks.index');
+    }
+
+    public function download($id)
+    {
+        $task = Task::find($id);
+        return Storage::download($task->pathToFile);
+        //Storage::setVisibility($path, 'public');
+        //$v = Storage::getVisibility($path);
+        //Storage::delete($path);
     }
 }

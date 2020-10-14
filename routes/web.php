@@ -62,3 +62,6 @@ Route::get('/tasks/{task_id}/points/{point_id}/done', function ($task_id, $point
 })->name('tasks.points.done');
 
 Route::resource('/tasks.points', 'App\Http\Controllers\TaskPointController');
+
+Route::get('tasks/downdload/{id}', 'App\Http\Controllers\TaskController@download')
+    ->name('tasks.download');

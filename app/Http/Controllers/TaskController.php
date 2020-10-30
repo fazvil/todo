@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\File;
+use App\Models\TaskPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\TaskPoint;
 use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
@@ -136,8 +136,6 @@ class TaskController extends Controller
     {
         $file = File::find($file_id);
         return Storage::download($file->pathToFile);
-        //Storage::setVisibility($path, 'public');
-        //$v = Storage::getVisibility($path);
     }
 
     public function file_delete($file_id)

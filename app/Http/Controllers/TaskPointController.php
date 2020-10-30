@@ -70,9 +70,9 @@ class TaskPointController extends Controller
      * @param  \App\Models\TaskPoint  $taskPoint
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task, TaskPoint $taskPoint)
+    public function edit(Task $task, TaskPoint $point)
     {
-        //
+        return view('task_point.edit', compact('task', 'point'));
     }
 
     /**
@@ -83,9 +83,11 @@ class TaskPointController extends Controller
      * @param  \App\Models\TaskPoint  $taskPoint
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task, TaskPoint $taskPoint)
+    public function update(Request $request, Task $task, TaskPoint $point)
     {
-        //
+        $point->body = $request->input('body');
+        $point->save();
+        return redirect()->route('tasks.show', $task);
     }
 
     /**
@@ -95,8 +97,16 @@ class TaskPointController extends Controller
      * @param  \App\Models\TaskPoint  $taskPoint
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task, TaskPoint $taskPoint)
+    public function destroy(Task $task, TaskPoint $point)
     {
-        //
+        $point->delete();
+        return redirect()->route('tasks.show', $task);
+    }
+
+    public function done(Task $task, TaskPoint $point)
+    {
+        $point->done = true;
+        $point->save();
+        return redirect()->back();
     }
 }
